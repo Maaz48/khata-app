@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
+import { PaperProvider } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import StackNavigator from "./components/StackNavigator";
+import { theme } from "./components/theme";
+import { ContextProvider } from "./contextApi/context";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "./components/colors";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [fontsLoaded] = useFonts({
+    urduFont: require("./assets/fonts/UrduFont.ttf"),
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return console.log("HELL WORLD");
+  } else {
+    return (
+      <NavigationContainer>
+        <SafeAreaView style={{ flex: 1 }}>
+          <ContextProvider
+            Children={
+              <PaperProvider theme={theme}>
+                <StackNavigator />
+                <StatusBar style="light" backgroundColor={colors.primary} />
+              </PaperProvider>
+            }
+          />
+        </SafeAreaView>
+      </NavigationContainer>
+    );
+  }
+}
