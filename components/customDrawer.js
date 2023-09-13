@@ -99,6 +99,6 @@ const styles = StyleSheet.create({
     borderTopColor: colors.greyBorderColor,
     paddingVertical: 20,
     backgroundColor: colors.primary,
-    alignItems:"flex-end"
+    alignItems: "flex-end",
   },
 });

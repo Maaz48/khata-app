@@ -12,6 +12,9 @@ import AddJins from "../screens/addJins";
 import AddSections from "../screens/addSections";
 import IconButtonComp from "./iconButtonComp";
 import FormScreens from "../screens/formScreens";
+import SubmenuScreen from "../screens/submenuScreen";
+import { sideBardItems } from "./data";
+import SubmenuFormScreen from "../screens/submenuFormScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -44,6 +47,8 @@ const MainStack = () => {
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="forms" component={FormScreens} />
+      <Stack.Screen name="subMenu" component={SubmenuScreen} />
+      <Stack.Screen name="subMenuForms" component={SubmenuFormScreen} />
       {/* Add more screens and their configurations here */}
     </Stack.Navigator>
   );
@@ -79,27 +84,19 @@ const DrawerNavigator = () => {
         component={MainStack}
         options={{ headerShown: false, drawerLabel: "ہوم پیج" }}
       />
-      <Drawer.Screen
-        name="خریدار شامل کریں۔"
-        component={AddBuyer}
-        options={{
-          drawerLabel: "خریدار شامل کریں۔",
-        }}
-      />
-      <Drawer.Screen
-        name="جنس شامل کریں۔"
-        component={AddJins}
-        options={{
-          drawerLabel: "جنس شامل کریں۔",
-        }}
-      />
-      <Drawer.Screen
-        name="سیکشن تبدیل کریں۔"
-        component={AddSections}
-        options={{
-          drawerLabel: "سیکشن تبدیل کریں۔",
-        }}
-      />
+
+      {sideBardItems.map((data, ind) => {
+        return (
+          <Drawer.Screen
+            name={data.name}
+            component={SubmenuScreen}
+            options={{ headerShown: false, drawerLabel: `${data.name}` }}
+            initialParams={{ id: data.id }}
+            key={ind}
+          />
+        );
+      })}
+
       {/* Add more screens for the drawer menu */}
     </Drawer.Navigator>
   );
@@ -108,7 +105,6 @@ const DrawerNavigator = () => {
 const StackNavigator = () => {
   /////////////// CONTEXT RAPPER ///////////////
   const { contextValue } = useContext(Context);
-
   return contextValue.isLogedIn ? <DrawerNavigator /> : <AuthStack />;
 };
 
